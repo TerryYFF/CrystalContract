@@ -1,12 +1,12 @@
 pragma solidity ^0.4.23;
 
 
-import "./InterfaceContractStorage.sol";
+// import "./InterfaceContractStorage.sol";
 
 
 import "./Ownable.sol";
 
-contract ContractStorage is InterfaceContractStorage, Ownable {
+contract ContractStorage is Ownable {
     
     
 
@@ -216,6 +216,24 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
     {
         return contractsById[_contractID];
     }
+    
+    
+    function getContractInfo(uint256 _contractID)
+    public
+        view
+        returns (string name, address _employeeAddress, address _employerAddress,
+    uint salary, uint startdate, uint durationInWeeks, string description)
+    {
+        if (signedContractsById[_contractID].exists) {
+            return (contractsById[_contractID].name,
+                    contractsById[_contractID]._employeeAddress,
+                    contractsById[_contractID]._employerAddress,
+                    contractsById[_contractID].salary,
+                    contractsById[_contractID].startdate,
+                    contractsById[_contractID].durationInWeeks, 
+                    contractsById[_contractID].description);
+        }
+    }
 
 
 
@@ -260,7 +278,7 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
     function EmployeeBelongstoContract(uint256 _contractID, address _address) 
     public 
     existingContractId(_contractID)
-    returns (bool)
+    view returns (bool)
     {
         return contractsById[_contractID]._employeeAddress == _address;
     }
@@ -268,7 +286,7 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
     function EmployerBelongstoContract(uint256 _contractID, address _address) 
     public 
     existingContractId(_contractID)
-    returns (bool)
+    view returns (bool)
     {
         return contractsById[_contractID]._employerAddress == _address;
     }
@@ -276,7 +294,7 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
     function MediatorBelongstoContract(uint256 _contractID, address _address) 
     public 
     existingContractId(_contractID)
-    returns (bool)
+    view returns (bool)
     {
         return contractsById[_contractID]._MediatorAddress == _address;
     }
