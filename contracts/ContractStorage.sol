@@ -7,8 +7,8 @@ import "./InterfaceContractStorage.sol";
 import "./Ownable.sol";
 
 contract ContractStorage is InterfaceContractStorage, Ownable {
-
-
+    
+    
 
     /*
      *  Storage
@@ -41,7 +41,7 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
     /*
      *  Modifiers
      */
-
+   
 
     modifier existingContractId(uint256 _id) {
         require(contractsById[_id].exists);
@@ -55,19 +55,19 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
              contractCount = 0;
              signedcontractCount = 0;
     }
-
-
+    
+    
     /*
      * Public functions
      */
      // Everyone with a single adress in the blockchain should be able to own only 1 adress in the blockchain
      // You also do not want someone else creating an adress for your adress
     function addContract( string name,  address _employerAddress, address _employeeAddress, address _MediatorAddress,
-    uint salary, uint startdate, uint durationInWeeks, string jobType, string description)
+    uint salary, uint startdate, uint durationInWeeks, string jobType, string description) 
         public
-
+        
     {
-
+        
         contractsById[nextContractId].name = name;
         contractsById[nextContractId].exists = true;
         contractsById[nextContractId].employerSigned = false;
@@ -84,14 +84,15 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
         contractsById[nextContractId].description = description;
         contractCount++;
         nextContractId++;
+        
     }
-
-
-
+    
+    
+    
 
     function EmployeesignContract(uint256 _contractID)
     public
-
+    
     existingContractId(_contractID)
     {
         contractsById[_contractID].employeeSigned = true;
@@ -100,19 +101,19 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
                 signedContractsById[_contractID] = contractsById[_contractID];
                 signedcontractCount++;
             }
-
+            
         }
-
-
+            
+            
     }
-
-
-
-
+    
+    
+    
+    
 
     function EmployersignContract(uint256 _contractID)
     public
-
+    
      existingContractId(_contractID)
     {
         contractsById[_contractID].employerSigned = true;
@@ -121,25 +122,25 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
                 signedContractsById[_contractID] = contractsById[_contractID];
                 signedcontractCount++;
             }
-
+                
         }
-
+            
     }
+    
+    
 
-
-
-
-
+     
+     
     function MediatorsignContract(uint256 _contractID)
     public
-
+    
     existingContractId(_contractID)
     {
-
+       
         contractsById[_contractID].mediatorSigned = true;
-
+            
     }
-
+    
     // If contract is expired then it is removed
     function CheckExpired(uint256 _contractID)
     public
@@ -152,8 +153,8 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
         }
         return false;
     }
-
-
+     
+    
 
 
 
@@ -165,7 +166,7 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
     {
         return contractCount;
     }
-
+ 
 
 
 
@@ -184,7 +185,7 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
         }
         delete cntract.exists;
         delete cntract.name;
-
+        
         delete cntract.id;
 
 
@@ -200,7 +201,7 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
         delete cntract.durationInWeeks;
         delete cntract.jobType;
         delete cntract.description;
-
+        
         contractCount--; //number of active Contracts
     }
 
@@ -229,7 +230,7 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
     }
 
 
-    function getCompanyAddress(uint256 _contractID)
+    function getCompanyAddress(uint256 _contractID) 
     public
     existingContractId(_contractID)
     view
@@ -240,64 +241,67 @@ contract ContractStorage is InterfaceContractStorage, Ownable {
 
 
 
-    function  getContractCount()
+    function  getContractCount() 
         public
         view
         returns (uint256)
     {
         return contractCount;
     }
-
-    function  getSignedContractCount()
+    
+    function  getSignedContractCount() 
         public
         view
         returns (uint256)
     {
         return signedcontractCount;
     }
-
-    function EmployeeBelongstoContract(uint256 _contractID, address _address)
-    public
+    
+    function EmployeeBelongstoContract(uint256 _contractID, address _address) 
+    public 
     existingContractId(_contractID)
     returns (bool)
     {
         return contractsById[_contractID]._employeeAddress == _address;
     }
-
-    function EmployerBelongstoContract(uint256 _contractID, address _address)
-    public
+    
+    function EmployerBelongstoContract(uint256 _contractID, address _address) 
+    public 
     existingContractId(_contractID)
     returns (bool)
     {
         return contractsById[_contractID]._employerAddress == _address;
     }
-
-    function MediatorBelongstoContract(uint256 _contractID, address _address)
-    public
+    
+    function MediatorBelongstoContract(uint256 _contractID, address _address) 
+    public 
     existingContractId(_contractID)
     returns (bool)
     {
         return contractsById[_contractID]._MediatorAddress == _address;
     }
 
-
-
-
-    function getContractDuration(uint256 _id)
+    
+    
+    
+    function getContractDuration(uint256 _id) 
      public
         view
         returns (uint256)
     {
         return contractsById[_id].durationInWeeks;
     }
-
-
+    
+    
     function get_ContractStartdate(uint256 _id)
-        public
+        public 
         view
         returns(uint)
     {
         return contractsById[_id].startdate;
     }
-
+    
+    
+    
+    
 }
