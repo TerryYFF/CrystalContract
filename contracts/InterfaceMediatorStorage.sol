@@ -9,5 +9,5 @@ contract InterfaceMediatorStorage {
     function getMediatorName(uint256 _id) public view returns (string);
     function isMediator(address _address)  public returns (bool);
     function removeMediator(address _address) public;
-
+    
 }
