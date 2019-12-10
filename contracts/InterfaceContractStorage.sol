@@ -9,11 +9,11 @@ contract InterfaceContractStorage {
     function EmployeeBelongstoContract(uint256 _contractID, address _address) public returns (bool);
     function EmployerBelongstoContract(uint256 _contractID, address _address) public returns (bool);
     function MediatorBelongstoContract(uint256 _contractID, address _address) public returns (bool);
-
+    
     function EmployersignContract(uint256 _contractID) public;
     function EmployeesignContract(uint256 _contractID) public;
     function MediatorsignContract(uint256 _contractID) public;
-
+    
     function CheckExpired(uint256 _contractID) public returns (bool);
     function getCompanyAddress(uint256 _contractID) public view returns (address);
     // function getContractStartdate(uint256 _id) public returns(string);
