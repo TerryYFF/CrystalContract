@@ -9,7 +9,7 @@ import "./Ownable.sol";
 
 
 contract EmployerStorage is InterfaceEmployerStorage, Ownable {
-
+    
 
     /*
      *  Storage
@@ -26,15 +26,15 @@ contract EmployerStorage is InterfaceEmployerStorage, Ownable {
 
     mapping (uint256 => Company) companiesById;
     mapping (address => uint256) companiesByAddress;
-
-
+    
+    
     // constructor
-
+    
     constructor () public {
             nextCompanyId=1;
             CompanyCount=0;
     }
-
+     
 
     /*
      *  Modifiers
@@ -57,13 +57,13 @@ contract EmployerStorage is InterfaceEmployerStorage, Ownable {
     /*
      * Public functions
      */
-
-
+     
+     
      // Everyone with a single adress in the blockchain should be able to own only 1 adress in the blockchain
      // You also do not want someone else creating an adress for your adress
-    function addCompany(string name, address employerAddress)
+    function addCompany(string name, address employerAddress) 
         public
-
+        
         notExistingCompanyAddress(employerAddress)
     {
         companiesById[nextCompanyId].exists = true;
@@ -77,7 +77,7 @@ contract EmployerStorage is InterfaceEmployerStorage, Ownable {
 
 
 
-
+ 
 
     // Returns Company count from all of history
     function getCompanyCount()
@@ -87,7 +87,7 @@ contract EmployerStorage is InterfaceEmployerStorage, Ownable {
     {
         return CompanyCount;
     }
-
+ 
     /// @dev gets the Company ID.
     /// @param _address Address of existing Company.
     /// @return Returns Company ID.
@@ -111,8 +111,8 @@ contract EmployerStorage is InterfaceEmployerStorage, Ownable {
     {
         return companiesById[_id].accountAddress;
     }
-
-
+    
+    
 
 
 
@@ -125,22 +125,22 @@ contract EmployerStorage is InterfaceEmployerStorage, Ownable {
         existingCompanyAddress(_address)
     {
         Company memory company = getCompany(_address);
-
+        
         delete company.exists;
         delete company.id;
         delete company.accountAddress;
         CompanyCount--; //number of active Companys
     }
-
-    function getCompanyName(uint256 _id)
-        public
+    
+    function getCompanyName(uint256 _id) 
+        public 
         view
         returns(string)
     {
         return companiesById[_id].name;
     }
-
-    function isEmployer(address _address)
+    
+    function isEmployer(address _address) 
     public
     existingCompanyAddress(_address)
     returns (bool) {
@@ -159,7 +159,7 @@ contract EmployerStorage is InterfaceEmployerStorage, Ownable {
         uint256 CompanyId = companiesByAddress[_address];
         return companiesById[CompanyId];
     }
-
-
+    
+    
 
 }
