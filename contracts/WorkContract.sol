@@ -1,7 +1,7 @@
 pragma solidity ^0.4.23;
 
 
-import "./InterfaceWorkContract.sol";
+import "./InterfaceWorkcontract.sol";
 import "./EmployeeStorage.sol";
 import "./EmployerStorage.sol";
 import "./MediatorStorage.sol";
@@ -11,7 +11,7 @@ import "./ReportStorage.sol";
 
 
 
-// contract Workcontract is InterfaceWorkContract, Ownable {
+// contract Workcontract is InterfaceWorkcontract, Ownable {
     contract Workcontract is Ownable {
 
     /*
@@ -25,7 +25,7 @@ import "./ReportStorage.sol";
     // event EmployeeSalaryChange(address indexed employeeAddress, uint indexed newSalary);
     event EmployeeRemoved(address indexed employeeAddress, uint indexed_id);
     event EmployeePayed(address indexed employeeAddress, uint payPeriod);
-
+    
 
     /*
      *  Storage
@@ -48,45 +48,45 @@ import "./ReportStorage.sol";
         require(_uint > 0);
         _;
     }
-
+    
     modifier isEmployee(address _address) {
         require(employeeStorage.isEmployee(_address));
         _;
     }
-
+    
     modifier isEmployer(address _address) {
         require(employerStorage.isEmployer(_address));
         _;
     }
-
+    
     modifier isMediator(address _address) {
         require(mediatorStorage.isMediator(_address));
         _;
     }
-
+    
     modifier canMakeContract(address _address) {
         require(employerStorage.isEmployer(_address) || mediatorStorage.isMediator(_address));
         _;
     }
-
+    
     modifier checkEmployeeBelongstoContract(uint256 _contractID, address _address) {
         require(contractStorage.EmployeeBelongstoContract(_contractID, _address));
         _;
     }
-
+    
     modifier checkEmployerBelongstoContract(uint256 _contractID, address _address) {
         require(contractStorage.EmployerBelongstoContract(_contractID, _address));
         _;
     }
-
+    
     modifier checkMediatorBelongstoContract(uint256 _contractID, address _address) {
         require(contractStorage.MediatorBelongstoContract(_contractID, _address));
         _;
     }
-
+    
     // Check if a person can break a contract
     modifier checkCanBreakContract(uint256 _contractID, address _address) {
-        require(contractStorage.EmployeeBelongstoContract(_contractID, _address) ||
+        require(contractStorage.EmployeeBelongstoContract(_contractID, _address) || 
         contractStorage.EmployerBelongstoContract(_contractID, _address));
         _;
     }
@@ -105,24 +105,23 @@ import "./ReportStorage.sol";
         setContractStorage(new ContractStorage());
         setReportStorage(new ReportStorage());
     }
-
-
-
+    
+    
+    
 
     /// @dev adds a new employee.
     /// @param name Name of new employee.
-    /// @param passport_number Passport number of new employee.
     // Must be done by company account
     /// add countrycode Country code of new employee?
-    function addEmployee(string name, string passport_number)
+    function addEmployee(string name)
         public
         validAddress(msg.sender)
     {
-        // check if countrycode/passport_number valid?
-        employeeStorage.addEmployee(name, passport_number, msg.sender);
+
+        employeeStorage.addEmployee(name, msg.sender);
         emit NewEmployee(msg.sender); //event
     }
-
+    
     /// @dev adds a new company.
     /// @param name Name of new company.
     // Must be done by company account
@@ -134,7 +133,7 @@ import "./ReportStorage.sol";
         employerStorage.addCompany(name, _address);
         emit NewEmployer(_address); //event
     }
-
+    
     /// @dev adds a new mediator.
     /// @param _address Address of new mediator.
     /// @param name Name of new mediator.
@@ -146,7 +145,7 @@ import "./ReportStorage.sol";
         mediatorStorage.addMediator(name, _address);
         emit NewMediator(_address); //event
     }
-
+    
     /// @dev adds a new contract.
     /// @param _employerId Id of employer in the contract.
     /// @param _employeeId Id of employer in the contract.
@@ -169,35 +168,35 @@ import "./ReportStorage.sol";
     salary, startdate, durationInWeeks, jobType, description);
         // emit NewContract(_id); //event
     }
-
-
-    function employeeSignContract(uint256 _contractID)
-    public
+    
+    
+    function employeeSignContract(uint256 _contractID) 
+    public 
     checkEmployeeBelongstoContract(_contractID, msg.sender)
     {
         contractStorage.EmployeesignContract(_contractID);
     }
-
-    function employerSignContract(uint256 _contractID)
-    public
+    
+    function employerSignContract(uint256 _contractID) 
+    public 
     checkEmployerBelongstoContract(_contractID, msg.sender)
     {
         contractStorage.EmployersignContract(_contractID);
     }
-
-    function mediatorSignContract(uint256 _contractID)
-    public
+    
+    function mediatorSignContract(uint256 _contractID) 
+    public 
     checkMediatorBelongstoContract(_contractID, msg.sender)
     {
         contractStorage.MediatorsignContract(_contractID);
     }
 
-    function checkExpiredContract(uint256 _contractID)
-    public
+    function checkExpiredContract(uint256 _contractID) 
+    public 
     returns(string)
     {
         if (contractStorage.CheckExpired(_contractID)) {
-            return "Contract is expired and automatically terminated.";
+            return "Contract is expired and automatically terminated."; 
         }
         return "Contract is not expired.";
     }
@@ -213,7 +212,7 @@ import "./ReportStorage.sol";
     {
         return employeeStorage.getCount();
     }
-
+    
     /// @dev gets the total company count.
     /// @return Returns company count.
     function getCompanyCount()
@@ -224,7 +223,7 @@ import "./ReportStorage.sol";
     {
         return employerStorage.getCompanyCount();
     }
-
+    
     /// @dev gets the total mediator count.
     /// @return Returns mediator count.
     function getMediatorCount()
@@ -235,7 +234,7 @@ import "./ReportStorage.sol";
     {
         return mediatorStorage.getCount();
     }
-
+    
     /// @dev gets the total contract count.
     /// @return Returns contract count.
     function getContractCount()
@@ -246,8 +245,8 @@ import "./ReportStorage.sol";
     {
         return contractStorage.getContractCount();
     }
-
-
+    
+    
 
     /// @dev gets the employee ID.
     /// @param _address Address of existing employee.
@@ -261,7 +260,7 @@ import "./ReportStorage.sol";
     {
         return employeeStorage.getId(_address);
     }
-
+    
     /// @dev gets the employer ID.
     /// @param _address Address of existing employer.
     /// @return Returns employer ID.
@@ -274,7 +273,7 @@ import "./ReportStorage.sol";
     {
         return employerStorage.getCompanyId(_address);
     }
-
+    
     /// @dev gets the mediator ID.
     /// @param _address Address of existing mediator.
     /// @return Returns mediator ID.
@@ -299,7 +298,7 @@ import "./ReportStorage.sol";
     {
         return employeeStorage.getEmployeeAddress(_id);
     }
-
+    
     /// @dev gets the total employer address from ID.
     /// @param _id ID of existing employer.
     /// @return Returns employer address.
@@ -311,7 +310,7 @@ import "./ReportStorage.sol";
     {
         return employerStorage.getCompanyAddress(_id);
     }
-
+    
     /// @dev gets the total mediator address from ID.
     /// @param _id ID of existing mediator.
     /// @return Returns mediator address.
@@ -323,8 +322,8 @@ import "./ReportStorage.sol";
     {
         return mediatorStorage.getMediatorAddress(_id);
     }
-
-
+    
+    
 
 
 
@@ -341,7 +340,7 @@ import "./ReportStorage.sol";
         _name = employeeStorage.getName(_id);
         return (_address, _name);
     }
-
+    
     /// @dev gets the total employer info.
     /// @param _id ID of existing employer.
     /// @return Returns all existing employer info.
@@ -355,7 +354,7 @@ import "./ReportStorage.sol";
         _name = employerStorage.getCompanyName(_id);
         return (_address, _name);
     }
-
+    
     /// @dev gets the total mediator info.
     /// @param _id ID of existing mediator.
     /// @return Returns all existing mediator info.
@@ -382,7 +381,7 @@ import "./ReportStorage.sol";
         employeeStorage.remove(employeeAddress);
         emit EmployeeRemoved(employeeAddress, _id);
     }
-
+    
     /// @dev removes an employer.
     /// @param _id ID of existing employer.
     function removeEmployer(uint256 _id)
@@ -391,9 +390,9 @@ import "./ReportStorage.sol";
     {
         address employerAddress = employerStorage.getCompanyAddress(_id);
         employerStorage.removeCompany(employerAddress);
-        // emit EmployerRemoved(employerAddress, _id);
+        // emit EmployerRemoved(employerAddress, _id); 
     }
-
+    
     /// @dev removes an mediator.
     /// @param _id ID of existing mediator.
     function removeMediator(uint256 _id)
@@ -402,9 +401,9 @@ import "./ReportStorage.sol";
     {
         address mediatorAddress = mediatorStorage.getMediatorAddress(_id);
         mediatorStorage.removeMediator(mediatorAddress);
-        // emit MediatorRemoved(mediatorAddress, _id);
+        // emit MediatorRemoved(mediatorAddress, _id); 
     }
-
+    
     /// @dev removes a contract.
     /// @param _id ID of existing contract.
     function breakContract(uint256 _id)
@@ -412,11 +411,11 @@ import "./ReportStorage.sol";
     checkCanBreakContract(_id, msg.sender)
     {
         contractStorage.remove(_id);
-        // emit ContractRemoved(_id);
+        // emit ContractRemoved(_id); 
     }
-
-
-    function addReport(string name, address _companyAddress,  string message, uint256 _contractID)
+    
+    
+    function addReport(string name, address _companyAddress,  string message, uint256 _contractID) 
     public
     checkEmployeeBelongstoContract(_contractID, msg.sender)
     checkEmployerBelongstoContract(_contractID, _companyAddress)
@@ -425,37 +424,37 @@ import "./ReportStorage.sol";
         uint256 reportID = reportStorage.addReport(name, _companyAddress, message);
         return reportID;
     }
-
-     function signReport(uint256 _reportID, uint256 _contractID)
+    
+     function signReport(uint256 _reportID, uint256 _contractID) 
     public
     checkEmployeeBelongstoContract(_contractID, msg.sender)
     checkEmployerBelongstoContract(_contractID, contractStorage.getCompanyAddress(_contractID))
-    {
+    {   
         reportStorage.signReport(_reportID);
     }
-
-
-    function companyResponse(uint _reportID, string message)
+    
+    
+    function companyResponse(uint _reportID, string message) 
     public {
         if (msg.sender == reportStorage.getCompanyAddress(_reportID)){
             reportStorage.companyResponse(_reportID, message);
         }
     }
-
+    
     function resolved(uint _reportID) public {
         if (reportStorage.EmployeeBelongstoReport(_reportID, msg.sender)) {
             reportStorage.resolved(_reportID);
         }
-
+        
     }
-
-    function getReport(uint _reportID)
-    public
-    returns (string name, bool _resolved, uint256 _numberOfSignatures,
+    
+    function getReport(uint _reportID) 
+    public 
+    returns (string name, bool _resolved, uint256 _numberOfSignatures, 
     address _companyAddress, string _messageFromEmployee, string _responseFromEmployer) {
         return reportStorage.getReport(_reportID);
     }
-
+    
 
 
     /*
@@ -470,7 +469,7 @@ import "./ReportStorage.sol";
     {
         employeeStorage = InterfaceEmployeeStorage(_newEmployeeStorage);
     }
-
+    
     function setEmployerStorage(address _newEmployerStorage)
         internal
         onlyOwner
@@ -478,7 +477,7 @@ import "./ReportStorage.sol";
     {
         employerStorage = InterfaceEmployerStorage(_newEmployerStorage);
     }
-
+    
     function setMediatorStorage(address _newMediatorStorage)
         internal
         onlyOwner
@@ -486,8 +485,8 @@ import "./ReportStorage.sol";
     {
         mediatorStorage = InterfaceMediatorStorage(_newMediatorStorage);
     }
-
-
+    
+    
     function setContractStorage(address _newContractStorage)
         internal
         onlyOwner
