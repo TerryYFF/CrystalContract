@@ -455,6 +455,15 @@ import "./ReportStorage.sol";
         return reportStorage.getReport(_reportID);
     }
     
+    function getContract(uint _contractID) 
+    public 
+    view returns 
+    (string name, address _employeeAddress, address _employerAddress,
+    uint salary, uint startdate, uint durationInWeeks, string description)
+    
+    {
+        return contractStorage.getContractInfo(_contractID);
+    }
 
 
     /*
