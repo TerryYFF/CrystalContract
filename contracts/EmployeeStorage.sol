@@ -4,9 +4,9 @@ pragma solidity ^0.4.23;
 import "./InterfaceEmployeeStorage.sol";
 import "./Ownable.sol";
 
-
+    
 contract EmployeeStorage is InterfaceEmployeeStorage, Ownable {
-
+    
 
     /*
      *  Storage
@@ -16,7 +16,6 @@ contract EmployeeStorage is InterfaceEmployeeStorage, Ownable {
         bool exists;
         uint256 id;
         address accountAddress;
-        string passport_number;
     }
 
     uint256 nextEmployeeId = 1;
@@ -46,25 +45,24 @@ contract EmployeeStorage is InterfaceEmployeeStorage, Ownable {
     /*
      * Public functions
      */
-
-
+     
+     
      // Everyone with a single adress in the blockchain should be able to own only 1 adress in the blockchain
      // You also do not want someone else creating an adress for your adress
-
-
-
-
-
-    function addEmployee(string name, string passport_number, address employeeAddress)
+     
+     
+     
+     
+     
+    function addEmployee(string name, address employeeAddress) 
         public
-
+        
         notExistingEmployeeAddress(employeeAddress)
     {
         employeesById[nextEmployeeId].exists = true;
         employeesById[nextEmployeeId].id = nextEmployeeId;
         employeesById[nextEmployeeId].name = name;
         employeesById[nextEmployeeId].accountAddress = employeeAddress;
-        employeesById[nextEmployeeId].passport_number = passport_number;
         employeesByAddress[employeeAddress] = nextEmployeeId;
         employeeCount++;
         nextEmployeeId++;
@@ -82,14 +80,14 @@ contract EmployeeStorage is InterfaceEmployeeStorage, Ownable {
     {
         return employeeCount;
     }
-
+ 
     /// @dev gets the employee ID.
     /// @param _address Address of existing employee.
     /// @return Returns employee ID.
-
-
-
-
+    
+    
+     
+     
     function getId(address _address)
         public
         existingEmployeeAddress(_address)
@@ -102,9 +100,9 @@ contract EmployeeStorage is InterfaceEmployeeStorage, Ownable {
     /// @dev gets the total employee address from ID.
     /// @param _id ID of existing employee.
     /// @return Returns employee address.
-
-
-
+    
+     
+     
     function getEmployeeAddress(uint256 _id)
         public
         existingEmployeeId(_id)
@@ -117,27 +115,27 @@ contract EmployeeStorage is InterfaceEmployeeStorage, Ownable {
 
 
 
-    //get passport_number
-   function getPassportNumber(uint256 _id)
-        public
-        existingEmployeeId(_id)
-        view
-        returns (string)
-    {
-        return employeesById[_id].passport_number;
-    }
+//     //get passport_number
+//   function getPassportNumber(uint256 _id)
+//         public
+//         existingEmployeeId(_id)
+//         view 
+//         returns (string)
+//     {
+//         return employeesById[_id].passport_number;
+//     }
 
     //get name
     function getName(uint256 _id)
         public
         existingEmployeeId(_id)
-        view
+        view 
         returns (string)
     {
         return employeesById[_id].name;
     }
-
-    function isEmployee(address _address)
+    
+    function isEmployee(address _address) 
     public
     existingEmployeeAddress(_address)
     returns (bool) {
@@ -150,21 +148,20 @@ contract EmployeeStorage is InterfaceEmployeeStorage, Ownable {
 
     /// @dev removes and employee.
     /// @param _address Address of existing employee.
-
-
-
+    
+     
+     
     function remove(address _address)
         public
         onlyOwner
         existingEmployeeAddress(_address)
     {
         Employee storage employee = getEmployee(_address);
-
+        
         delete employee.exists;
         delete employee.id;
         delete employee.name;
         delete employee.accountAddress;
-        delete employee.passport_number;
         employeeCount--; //number of active employees
     }
 
