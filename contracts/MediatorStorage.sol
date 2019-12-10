@@ -7,7 +7,7 @@ import "./Ownable.sol";
 
 
 contract MediatorStorage is InterfaceMediatorStorage, Ownable {
-
+    
 
     /*
      *  Storage
@@ -22,7 +22,7 @@ contract MediatorStorage is InterfaceMediatorStorage, Ownable {
 
     uint256 nextMediatorId;
     uint256 MediatorCount;
-
+    
 
     mapping (uint256 => Mediator) mediatorsById;
     mapping (address => uint256) mediatorsByAddress;
@@ -33,7 +33,7 @@ contract MediatorStorage is InterfaceMediatorStorage, Ownable {
             nextMediatorId = 1;
             MediatorCount = 0;
     }
-
+    
     /*
      *  Modifiers
      */
@@ -55,17 +55,17 @@ contract MediatorStorage is InterfaceMediatorStorage, Ownable {
     /*
      * Public functions
      */
-
-
+     
+     
      // Everyone with a single adress in the blockchain should be able to own only 1 adress in the blockchain
      // You also do not want someone else creating an adress for your adress
+     
 
-
-
-
-    function addMediator(string name, address _address)
+     
+     
+    function addMediator(string name, address _address) 
         public
-
+        
         notExistingMediatorAddress(_address)
     {
         mediatorsById[nextMediatorId].exists = true;
@@ -79,7 +79,7 @@ contract MediatorStorage is InterfaceMediatorStorage, Ownable {
 
 
 
-
+ 
 
     // Returns Mediator count from all of history
     function getCount()
@@ -89,14 +89,14 @@ contract MediatorStorage is InterfaceMediatorStorage, Ownable {
     {
         return MediatorCount;
     }
-
+ 
     /// @dev gets the Mediator ID.
     /// @param _address Address of existing Mediator.
     /// @return Returns Mediator ID.
-
-
-
-
+    
+    
+    
+    
     function getMediatorId(address _address)
         public
         existingMediatorAddress(_address)
@@ -125,18 +125,18 @@ contract MediatorStorage is InterfaceMediatorStorage, Ownable {
     /// @param _address Address of existing Mediator.
     function removeMediator(address _address)
         public
-        onlyOwner
+        onlyOwner  
         existingMediatorAddress(_address)
     {
         Mediator memory mediator = getMediator(_address);
-
+        
         delete mediator.exists;
         delete mediator.id;
         delete mediator.accountAddress;
         MediatorCount--; //number of active Mediators
     }
-
-    function isMediator(address _address)
+    
+    function isMediator(address _address) 
     public
     existingMediatorAddress(_address)
     returns (bool) {
@@ -155,13 +155,14 @@ contract MediatorStorage is InterfaceMediatorStorage, Ownable {
         uint256 MediatorId = mediatorsByAddress[_address];
         return mediatorsById[MediatorId];
     }
-
-    function getMediatorName(uint256 _id)
-    public
+    
+    function getMediatorName(uint256 _id) 
+    public 
     view
     returns(string)
     {
         return mediatorsById[_id].name;
-
+        
     }
+
 }
