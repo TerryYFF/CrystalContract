@@ -8,8 +8,8 @@ import "./ContractStorage.sol";
 
 
 contract ReportStorage is InterfaceReportStorage, Ownable {
-
-
+    
+    
 
     /*
      *  Storage
@@ -27,33 +27,33 @@ contract ReportStorage is InterfaceReportStorage, Ownable {
         bool EmployerResponded;
         mapping(address => bool) employeeSignatures;
     }
-
+    
 
     uint256 nextReportId;
     uint256 ReportCount;
 
     mapping (uint256 => Report) reportById; //ReportID to Report
-
+    
     modifier existingReportId(uint256 _id) {
         require(reportById[_id].exists);
         _;
     }
-
-
+  
+        
 
 
      constructor () public {
              nextReportId = 1;
              ReportCount = 0;
     }
+    
+    
 
 
 
 
-
-
-
-        function addReport(string name, address _companyAddress,  string message)
+    
+        function addReport(string name, address _companyAddress,  string message) 
         public
         returns (uint256)
         {
@@ -70,13 +70,13 @@ contract ReportStorage is InterfaceReportStorage, Ownable {
             nextReportId++;
             return nextReportId-1;
         }
-
-
-
-
-        function signReport(uint256 _reportID)
+    
+    
+    
+    
+        function signReport(uint256 _reportID) 
         public
-
+        
         // Need to check if the employee has signed
         {
             if (!reportById[_reportID].employeeSignatures[msg.sender])
@@ -85,36 +85,36 @@ contract ReportStorage is InterfaceReportStorage, Ownable {
                 reportById[_reportID].numberOfSignatures++;
              }
         }
+         
+         
 
-
-
-
-         function companyResponse(uint _reportId, string message)
+         
+         function companyResponse(uint _reportId, string message) 
          public
          {
             if (!reportById[_reportId].EmployerResponded) {
                 reportById[_reportId].responseFromEmployer = message;
                 reportById[_reportId].EmployerResponded = true;
             }
-
+           
          }
+    
+    
+    
 
-
-
-
-
-        function resolved(uint _reportId)
+    
+        function resolved(uint _reportId) 
         public
         {
              reportById[_reportId].resolved = true;
         }
-
-
+        
+    
 //
-
+        
   //      for i in range(stringcount) :
     //            require(true,strmap[i]);
-
+    
         function getAllReports() public view
         {
             //string[] memory ret = new string[](ReportCount);
@@ -123,8 +123,8 @@ contract ReportStorage is InterfaceReportStorage, Ownable {
                 //ret[i] = reportById[i].messageFromEmployee;
             }
         }
-
-        function getReport(uint _reportID) public returns (string name, bool _resolved, uint256 _numberOfSignatures,
+        
+        function getReport(uint _reportID) public returns (string name, bool _resolved, uint256 _numberOfSignatures, 
         address _companyAddress, string _messageFromEmployee, string _responseFromEmployer)
         {
             if (reportById[_reportID].exists) {
@@ -136,8 +136,8 @@ contract ReportStorage is InterfaceReportStorage, Ownable {
                         reportById[_reportID].responseFromEmployer);
             }
         }
-
-        function getCompanyAddress(uint256 _reportID)
+        
+        function getCompanyAddress(uint256 _reportID) 
         public
         existingReportId(_reportID)
         view
@@ -145,14 +145,14 @@ contract ReportStorage is InterfaceReportStorage, Ownable {
         {
             return reportById[_reportID].companyAddress;
         }
-
-        function EmployeeBelongstoReport(uint256 _reportID, address _address)
-        public
+        
+        function EmployeeBelongstoReport(uint256 _reportID, address _address) 
+        public 
         existingReportId(_reportID)
         view
         returns (bool)
         {
             return reportById[_reportID].reportFiler == _address;
         }
-
+        
 }
